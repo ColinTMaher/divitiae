@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 function Details(props) {
     return (
         <div className="detail">
-            <p>{props.name} : €{props.amount}</p>
+                {props.name} 
+                €{props.amount}
+                <button>Edit</button>
+               <button>X</button>
         </div>
     )
 }
