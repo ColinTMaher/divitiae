@@ -6,19 +6,18 @@ import Total from "./components/Total"
 import MonthSelector from "./components/MonthSelector"
 import Details from "./components/Details"
 
+/* data = {
+  {
+
+  }
+} */
+
 function App() {
   return (
     <Router>
       <div className="app">
         <Link to="/">
-          <h1 class="title">Project Nina</h1>
-        </Link>
-        <MonthSelector />
-        <Link to="/Income">
-          <Total title="Income" amount={500}/>
-        </Link>
-        <Link to="/Spending">
-          <Total title="Spending" amount={1650}/>
+          <h1 className="title">Project Nina</h1>
         </Link>
 
         <Switch>
@@ -29,8 +28,16 @@ function App() {
             <Details />
           </Route>
           <Route path="/">
-            
-            </Route>
+            <MonthSelector />
+            <div id="totals">
+              <Link to="/Income">
+                <Total title="Income" amount={500}/>
+              </Link>
+              <Link to="/Spending">
+                <Total title="Spending" amount={1650}/>
+              </Link>  
+            </div>  
+          </Route>
         </Switch>
       </div>
     </Router>
