@@ -2,12 +2,12 @@ import React from "react"
 
 function Navbar() {
     return (
-        <header className="navbar">
+        <div className="navbar grid">
             <a href="#">Dashboard</a>
             <a href="#">Stuff</a>
             <a href="#">Stuff2</a>
             <a href="#">Settings</a>
-        </header>
+        </div>
     )
 }
 
