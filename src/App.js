@@ -1,8 +1,10 @@
 import React from 'react'
-//import {BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import {BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
-import Main from "./components/Main"
 import Navbar from "./components/Navbar"
+import Main from "./components/Dashboard"
+import Settings from "./components/Settings"
+
 
 /* import Navbar from "./components/Navbar"
 import Total from "./components/Total"
@@ -20,10 +22,22 @@ import './style/style.css'
 
 function App() {
   return (
-    <div className="flex-grid">
-      <Main />
-      <Navbar />
-    </div>
+    <Router>
+        <div>
+          <div class="main">
+            <Switch>
+              <Route path="/Dashboard">
+                <Main />
+              </Route>
+              <Route path="/Settings">
+                <Settings />
+              </Route>    
+            </Switch>
+          </div>   
+          <Navbar />
+        </div>
+    </Router>
+   
   )
 }
 
