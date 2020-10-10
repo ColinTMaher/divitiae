@@ -1,11 +1,10 @@
 import React from "react"
 
-function Total(props) {
+function DatePicker(props) {
     return (
-        <div className={`month-selector card ${props.width}`}>
+        <div className={`month-picker card`}>
             <form>
-            <select className="dropdown">
-                <option value="">-Select Month-</option>
+            <select className="dropdown" defaultValue="October">
                 <option value="january">January</option>
                 <option value="january">February</option>
                 <option value="january">March</option>
@@ -15,7 +14,7 @@ function Total(props) {
                 <option value="january">July</option>
                 <option value="january">August</option>
                 <option value="january">September</option>
-                <option value="january">October</option>
+                <option value="October">October</option>
                 <option value="january">November</option>
                 <option value="january">December</option>
             </select>
@@ -24,4 +23,4 @@ function Total(props) {
     )
 }
 
-export default Total
+export default DatePicker

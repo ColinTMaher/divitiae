@@ -1,15 +1,18 @@
 import React from "react"
 import Total from "./Total"
+import Categories from "./Categories"
+import MonthPicker from "./MonthPicker"
+import YearPicker from "./YearPicker"
 import Details from "./Details"
-import MonthSelector from "./MonthSelector"
 
 function Dashboard() {
     return (
         <div className="dashboard">   
-            <MonthSelector width="w-6"/>
-            <Total title="Spending" amount={256.50} width="w-3"/>
-            <Total title="Income" amount={1050.00} width="w-3"/>
-            <Details width="w-6"/>
+            <MonthPicker/>
+            <YearPicker/>
+            <Total title="Spending" amount={256.50}/>
+            <Total title="Income" amount={1050.00}/>
+            <Categories />
         </div>
     )
 }

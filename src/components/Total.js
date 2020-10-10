@@ -5,13 +5,10 @@ function Total(props) {
     const [total, setTotal] = useState(props.amount)
 
     return (
-        <div className={`total card ${props.width}`}>
-            <div>
-                <div className="title">{title}</div>
-                <div className="amount">€{total}</div>
-            </div>
-        </div>
-        
+        <div className={`total card`}>
+            <div className="title">{title}</div>
+            <div className="amount">€{total}</div>
+        </div>  
     )
 }
 

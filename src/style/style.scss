@@ -1,161 +1,195 @@
-$color-alpha: lightgrey;
-$color-beta: grey;
-$color-gamma:  #1f4068;
-$color-delta: #e43f5a;
-$navbar-color: #333;
-
-$navbar-width: 250px;
+$card-color: #1C2A35;
+$card-padding: 20px;
 $navbar-height: 60px;
 
-$main-padding: 10px;
-
-* {
-    box-sizing: border-box;
-}
-
-#root,
+html,
 body {
     margin: 0;
     padding: 0;
     height: 100%;
-    width: 100%;
-}
-
-.main {
-    overflow: auto;
-    padding: $main-padding $main-padding $main-padding 0;
-    background-color: $color-alpha;
-    position: absolute;
-    padding-bottom: $navbar-height;
-    height: calc(100% - #{$navbar-height});
-    width: 100%;
     background: #171F24;
-   
-    @media only screen and (min-width: 750px) {
-        width: calc(100% - #{$navbar-width});
-        margin-left: $navbar-width;
-        height: 100%;
-    }
-}
-
-.center {
-    max-width: 1000px;
-    margin: auto;
-}
-
-.w-1 {
-    width: calc(16.66% - #{$main-padding})
-}
-
-.w-2 {
-    width: calc(33.33% - #{$main-padding})
-}
-
-.w-3 {
-    width: calc(50% - #{$main-padding});
-}
-
-.w-4 {
-    width: calc(66.66% - #{$main-padding})
-}
-
-.w-5 {
-    width: calc(83.33% - #{$main-padding})
-}
-
-.w-6 {
-    width: calc(100% - #{$main-padding})
-}
-
-.card {
-    float: left;
-    text-align: center;
-    padding: 20px;
-    border-radius: 4px;
-    color: white;
-    background: #1C2A35;
-    margin-left: 10px;
-    margin-bottom: 10px;
+    font-size: 1.1em;
+    font-family: Calibri;
 }
 
 .navbar {
-    background-color: $navbar-color;
-    overflow: hidden;
     position: fixed;
     bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     width: 100%;
+    background: #333;
+    opacity: 1;
     height: $navbar-height;
-    display: flex; 
-    flex-direction: row;
-    text-align: center;
 
-    .text {
-        display: none;
-        
-        @media only screen and (min-width: 750px) {
-            display: block;
-        }
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.6em;
+        text-align: center;
+        height: 100%;
     }
 
     svg {
-        @media only screen and (min-width: 750px) {
-            display: none;
-        }
-    }
-    
-    a {
-        float: left;
-        text-decoration: none;
-        font-size: 17px;
         height: 100%;
-        line-height: $navbar-height;
-        display: block;
-        flex-grow: 1;
-        border: none;
-        color: white;
-        font-size: 1.5em;
-    
-        &:hover {
-            color: white;
-        }
-
-        &:active {
-            background-color: grey;
-        }
-
-        @media only screen and (min-width: 750px) {
-            height: 2em;
-            line-height: 1em;
-            width: 100%;
-        }
-    }
-
-    @media only screen and (min-width: 750px) {
-        height: 100%;
-        left: 0;
-        top: 0;
-        width: $navbar-width;
-        padding-top: 50px;
-        display: block;
     }
 }
 
-.month-selector {
-    .dropdown {
-        width: 100%;
-        text-align: center;
-        padding: 20px;
-        background: #1d3557;
-        color: white;
+.main {
+    display: grid;
+    padding: 10px;
+    max-width: 700px;
+    margin: auto;
+    margin-bottom: $navbar-height;
+}
+
+.card {
+    display: grid;
+    grid-gap: 5px;
+    border-radius: 5px;
+    padding: $card-padding;
+    text-align: center;
+    color: white;
+    background: $card-color;
+    user-select: none;   
+
+    &:active {
+        opacity: 0.7;
+    }
+}
+
+.dashboard {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    
+    .month-picker {
+        grid-column: span 3;
+        padding: 0;
+
+        select {
+            width: 100%;
+            background: $card-color;
+            color: white;
+            border: none;
+            padding: $card-padding;
+            font-size: 1.1em;
+        }
+    } 
+
+    .year-picker {
+        grid-column: span 3;
+        padding: 0;
+
+        select {
+            width: 100%;
+            background: $card-color;
+            color: white;
+            border: none;
+            padding: $card-padding;
+            font-size: 1.05em;
+        }
     }
 
-    margin-bottom: 10px;
+    .total {
+        grid-column: span 3;
+        font-size: 1.2em;
+    }
+
+    .details {
+        grid-column: span 6;
+    }
+}
+
+.categories {
+    display: grid;
+    grid-column: span 6;
+    row-gap: 1px;
+
+    .category {
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr;
+    
+        .icon {
+            font-size: 1.3em;
+            
+            svg {
+                height: 100%;
+            }
+        }
+
+        .text {
+            text-align: start; 
+
+            .subtitle {
+                font-size: 0.7em;
+            }
+        }
+
+        .amount {
+            text-align: start;
+            font-size: 1.15em;
+        }    
+    } 
 }
 
 .settings {
-    height: 100%;
+    display: grid;
+    color: white;
+    grid-column: span 6;
+    row-gap: 10px;
+
+    .setting {
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr;
+
+        &:active {
+            transform: scale(1.01)
+        }
+
+        .left-icon {
+            font-size: 1.3em;
+            
+            svg {
+                height: 100%;
+            }
+        }
+
+        .text {
+            text-align: start;
+            margin-left: 5%;
+            .main-text {
+                text-align: start;
+            }
+
+            .sub-text {
+                font-size: 0.7em;
+                
+            }
+        }
+
+        .right-icon {
+            font-size: 1.3em;
+            
+            svg {
+                height: 100%;
+            }
+        }
+    }  
+}
+
+
+.details {
+    grid-column: span 6;
+
+    .detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        text-align: start;
+    }
 }
 
 .analytics {
-    height: 100%;
+    display: grid;
+    row-gap: 10px;
 }

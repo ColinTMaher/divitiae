@@ -7,23 +7,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Navbar() {
     return (
-        <div className="navbar grid">    
+        <div className="navbar">    
             <Link to="/Dashboard">
-                <div class="nav-link">
-                    <div className="text">Dashboard</div>
-                    <FontAwesomeIcon icon={faHome} />  
+                <div className="nav-link">
+{/*                     <div className="text">Dashboard</div>
+ */}                    <FontAwesomeIcon icon={faHome} />  
                 </div>
             </Link>
             <Link to="/Analytics">
-                <div class="nav-link">
-                    <div className="text">Analytics</div>
-                    <FontAwesomeIcon icon={faChartLine} />
+                <div className="nav-link">
+{/*                     <div className="text">Analytics</div>
+ */}                    <FontAwesomeIcon icon={faChartLine} />
                 </div>
             </Link>    
             <Link to="/Settings">
-                <div class="nav-link">
-                    <div className="text">Settings</div>
-                    <FontAwesomeIcon icon={faCog} />  
+                <div className="nav-link">
+{/*                     <div className="text">Settings</div>
+ */}                    <FontAwesomeIcon icon={faCog} />  
                 </div>    
             </Link>      
         </div>
