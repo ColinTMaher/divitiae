@@ -1,52 +1,81 @@
-$navbar-width: 250px;
-$navbar-height: 75px;
-
+$color-alpha: lightgrey;
+$color-beta: grey;
+$color-gamma:  #1f4068;
+$color-delta: #e43f5a;
 $navbar-color: #333;
 
+$navbar-width: 250px;
+$navbar-height: 60px;
+
+$main-padding: 10px;
+
+* {
+    box-sizing: border-box;
+}
+
+#root,
 body {
     margin: 0;
     padding: 0;
-    color: black;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 15px;
+    height: 100%;
+    width: 100%;
 }
 
 .main {
-    padding: 10px;
-    margin-bottom: $navbar-height;
-    
+    overflow: auto;
+    padding: $main-padding $main-padding $main-padding 0;
+    background-color: $color-alpha;
+    position: absolute;
+    padding-bottom: $navbar-height;
+    height: calc(100% - #{$navbar-height});
+    width: 100%;
+    background: #171F24;
+   
     @media only screen and (min-width: 750px) {
+        width: calc(100% - #{$navbar-width});
         margin-left: $navbar-width;
-        margin-bottom: 0;
+        height: 100%;
     }
 }
 
-.container {
-    display: grid;
-/*     grid-template-columns: repeat( auto-fit, minmax(500px, 1fr) ); */
-    grid-gap: 10px;
+.center {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.w-1 {
+    width: calc(16.66% - #{$main-padding})
+}
+
+.w-2 {
+    width: calc(33.33% - #{$main-padding})
+}
+
+.w-3 {
+    width: calc(50% - #{$main-padding});
+}
+
+.w-4 {
+    width: calc(66.66% - #{$main-padding})
+}
+
+.w-5 {
+    width: calc(83.33% - #{$main-padding})
+}
+
+.w-6 {
+    width: calc(100% - #{$main-padding})
 }
 
 .card {
-    border: 1px solid red;
-}
-
-.overview {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.card {
-    margin: 10px 10px;
-    align-items: center;
-    justify-content: space-between;
+    float: left;
+    text-align: center;
     padding: 20px;
-    background-color: lightgrey; 
-    height: 100px;
-    border: 1px solid darkblue;
     border-radius: 4px;
     color: white;
+    background: #1C2A35;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .navbar {
@@ -58,10 +87,24 @@ body {
     height: $navbar-height;
     display: flex; 
     flex-direction: row;
+    text-align: center;
+
+    .text {
+        display: none;
+        
+        @media only screen and (min-width: 750px) {
+            display: block;
+        }
+    }
+
+    svg {
+        @media only screen and (min-width: 750px) {
+            display: none;
+        }
+    }
     
     a {
         float: left;
-        text-align: center;
         text-decoration: none;
         font-size: 17px;
         height: 100%;
@@ -70,6 +113,7 @@ body {
         flex-grow: 1;
         border: none;
         color: white;
+        font-size: 1.5em;
     
         &:hover {
             color: white;
@@ -80,9 +124,8 @@ body {
         }
 
         @media only screen and (min-width: 750px) {
-            height: 1em;
+            height: 2em;
             line-height: 1em;
-            padding: 20px 0px;
             width: 100%;
         }
     }
@@ -97,8 +140,22 @@ body {
     }
 }
 
+.month-selector {
+    .dropdown {
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        background: #1d3557;
+        color: white;
+    }
 
+    margin-bottom: 10px;
+}
 
+.settings {
+    height: 100%;
+}
 
-
-
+.analytics {
+    height: 100%;
+}

@@ -2,13 +2,13 @@ import React from 'react'
 import {BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 import Navbar from "./components/Navbar"
-import Main from "./components/Dashboard"
+import Dashboard from "./components/Dashboard"
 import Settings from "./components/Settings"
-
+import Analytics from "./components/Analytics"
 
 /* import Navbar from "./components/Navbar"
 import Total from "./components/Total"
-import MonthSelector from "./components/MonthSelector"
+
 import Details from "./components/Details" */
 
 
@@ -22,22 +22,18 @@ import './style/style.css'
 
 function App() {
   return (
-    <Router>
-        <div>
-          <div class="main">
+      <Router>  
+        <main className="main">
+          <div className="center">
             <Switch>
-              <Route path="/Dashboard">
-                <Main />
-              </Route>
-              <Route path="/Settings">
-                <Settings />
-              </Route>    
+                <Route path="/Settings" component={Settings} /> 
+                <Route path="/Analytics" component={Analytics} /> 
+                <Route path={["/Dashboard", "/"]} component={Dashboard} />
             </Switch>
-          </div>   
-          <Navbar />
-        </div>
-    </Router>
-   
+          </div>      
+        </main>  
+        <Navbar /> 
+      </Router>      
   )
 }
 
