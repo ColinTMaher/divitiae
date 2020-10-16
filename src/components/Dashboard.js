@@ -1,19 +1,15 @@
-import React from "react"
-import Total from "./Total"
-import Categories from "./Categories"
-import MonthPicker from "./MonthPicker"
-import YearPicker from "./YearPicker"
-import Details from "./Details"
+import React, { useEffect, useState } from "react"
 
 function Dashboard() {
     return (
-        <div className="dashboard">   
-            <MonthPicker/>
-            <YearPicker/>
-            <Total title="Spending" amount={256.50}/>
-            <Total title="Income" amount={1050.00}/>
-            <Categories />
-        </div>
+        <>
+            <div className="w2">Thingy #1</div>    
+            <div className="w4">Thingy #2</div>  
+            <div className="w3">Thingy #3</div>  
+            <div className="w3">Thingy #4</div>  
+            <div className="w1">Thingy #5</div>  
+            <div className="w5">Thingy #6</div>  
+        </>     
     )
 }
 
