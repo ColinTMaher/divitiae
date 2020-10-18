@@ -1,14 +1,60 @@
 import React, { useEffect, useState } from "react"
+import { Grid, Card } from '@material-ui/core'
+
 
 function Dashboard() {
     return (
         <>
-            <div className="w2">Thingy #1</div>    
-            <div className="w4">Thingy #2</div>  
-            <div className="w3">Thingy #3</div>  
-            <div className="w3">Thingy #4</div>  
-            <div className="w1">Thingy #5</div>  
-            <div className="w5">Thingy #6</div>  
+            <Grid item xs={6}>  
+                <Card>
+                    Thingy #1  
+                </Card>
+            </Grid>
+            <Grid item xs={6}>  
+                <Card>
+                    Thingy #2  
+                </Card>
+            </Grid>
+            <Grid item xs={4}>  
+                <Card>
+                    Thingy #3
+                </Card>
+            </Grid>
+            <Grid item xs={4}>  
+                <Card>
+                    Thingy #4  
+                </Card>
+            </Grid>
+            <Grid item xs={4}>  
+                <Card>
+                    Thingy #5  
+                </Card>
+            </Grid>
+            <Grid item xs={12}>  
+                <Card>
+                    Thingy #6 
+                </Card>
+            </Grid>
+            <Grid item xs={3}>  
+                <Card>
+                    Thingy #7
+                </Card>
+            </Grid>
+            <Grid item xs={3}>  
+                <Card>
+                    Thingy #8 
+                </Card>
+            </Grid>
+            <Grid item xs={3}>  
+                <Card>
+                    Thingy #9  
+                </Card>
+            </Grid>
+            <Grid item xs={3}>  
+                <Card>
+                    Thingy #10  
+                </Card>
+            </Grid>
         </>     
     )
 }

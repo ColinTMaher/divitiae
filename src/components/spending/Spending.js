@@ -37,7 +37,7 @@ function Spending() {
     spendingData.sort((a,b) => (a.timestamp > b.timestamp) ? 1 : ((b.timestamp > a.timestamp) ? -1 : 0)) 
     
     return (
-        <Grid container>
+            <>
             <Grid item xs="12">
                 <Card>
                     <input className="search-box" type="text" placeholder="search"></input>
@@ -85,7 +85,7 @@ function Spending() {
                     {spendingItems}
                 </Card>
             </Grid>
-        </Grid>
+            </>
     )
 }
 

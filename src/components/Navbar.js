@@ -13,8 +13,7 @@ const useStyles = makeStyles(() => ({
         width: "100%",
         position: 'fixed',
         bottom: 0,
-        alignItems: "center",
-        background: "lightgrey"
+        alignItems: "center"
     }
 }))
 
