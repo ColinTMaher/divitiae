@@ -1,44 +1,69 @@
 import React, { useContext } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faUtensils } from "@fortawesome/free-solid-svg-icons"
-import { faGamepad } from "@fortawesome/free-solid-svg-icons"
-import { faBus } from "@fortawesome/free-solid-svg-icons"
-import { faShoppingBasket } from "@fortawesome/free-solid-svg-icons"
-import { faPlane } from "@fortawesome/free-solid-svg-icons"
-import { faHeartbeat } from "@fortawesome/free-solid-svg-icons"
-import { faBolt } from "@fortawesome/free-solid-svg-icons"
-import { faGlobe } from "@fortawesome/free-solid-svg-icons"
 import { db } from "../../firebase"
 import { AuthContext } from "../../Auth"
-import { Grid, Card } from "@material-ui/core"
+import { TableCell, SvgIcon, Button, IconButton } from "@material-ui/core"
+
+import { makeStyles } from "@material-ui/core/Styles"
+
+// Icons.
+import FlightIcon  from '@material-ui/icons/Flight'
+import PublicIcon from '@material-ui/icons/Public'
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket'
+import DirectionsBusIcon from '@material-ui/icons/DirectionsBus'
+import RestaurantIcon from '@material-ui/icons/Restaurant'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import HouseIcon from '@material-ui/icons/House'
+import DeleteIcon from '@material-ui/icons/Delete';
+
+const useStyles = makeStyles({
+    icon: {
+        textAlign: "center"
+    },
+    text: {
+        
+    },
+    name: {
+        
+    },
+    date: {
+        fontSize: "0.8em"
+    },
+    amount: {
+        textAlign: "right"
+    },
+    delete: {
+        textAlign: "center"
+    }
+})
 
 function SpendingItem(props) {
     const {name, amount, category, timestamp} = props.item
     const authContext = useContext(AuthContext)
+    const classes = useStyles()
 
     var icon
 
     switch(category) {
         case "general":
-            icon = faGlobe;
+            icon = PublicIcon;
             break
         case "groceries": 
-            icon = faShoppingBasket;
+            icon = ShoppingBasketIcon;
             break
         case "travel":
-            icon = faPlane;
+            icon = FlightIcon;
             break
         case "transport":
-            icon = faBus;
+            icon = DirectionsBusIcon;
             break
-        case "food":
-            icon = faUtensils;
+        case "restaurant":
+            icon = RestaurantIcon;
             break
         case "health":
-            icon = faHeartbeat;
+            icon = FavoriteIcon;
             break
         case "utilities":
-            icon = faBolt;
+            icon = HouseIcon;
             break
         default: 
             break
@@ -62,29 +87,23 @@ function SpendingItem(props) {
     }
 
     return (
-        <Grid container item xs="12"> 
-            <Grid item xs="3">
-                <div className="icon">
-                    <FontAwesomeIcon icon={icon} />
-                </div>
-            </Grid>
-            <Grid item xs="3">
-                <div className="text">
-                    <div className="name">{name}</div>
-                    <div className="date">{`${day}/${month}/${year}`}</div>
-                </div>
-            </Grid>
-            <Grid item xs="3">
-                <div className="amount">
-                    €{amount}{/* €{amount.toFixed(2)} */}
-                </div>
-            </Grid>
-            <Grid item xs="3">
-                <div className="delete-btn">
-                    <a onClick={remove}>X</a>
-                </div>
-            </Grid>       
-        </Grid>
+        <>
+            <TableCell className={classes.icon}>
+                <SvgIcon component={icon} />
+            </TableCell>
+            <TableCell className={classes.text}>
+                <div className={classes.name}>{name}</div>
+                <div className={classes.date}>{`${day}/${month}/${year}`}</div>
+            </TableCell>
+            <TableCell className={classes.amount}>
+                €{amount}{/* €{amount.toFixed(2)} */}
+            </TableCell>
+            <TableCell className={classes.delete}>
+                <IconButton aria-label="delete" onClick={() => remove()}>
+                    <DeleteIcon />
+                </IconButton>
+            </TableCell>       
+        </>
     )
 }
 

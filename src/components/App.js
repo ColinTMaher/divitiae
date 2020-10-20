@@ -13,9 +13,9 @@ import Settings from "./settings/Settings"
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
 import Navbar from './Navbar';
+import AuthForm from "./AuthForm"
 
 import { purple, green, orange, red } from '@material-ui/core/colors';
-import { PlayCircleOutline } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   background: {
@@ -23,38 +23,41 @@ const useStyles = makeStyles({
     borderRadius: 0
   },
   container: {
-    padding: "10px"
+    padding: "10px",
   }
 })
 
-
-
-function App() {
+function App(props) {
   const [darkMode, setDarkMode] = useState(false)
   const classes = useStyles()
 
   const theme = createMuiTheme({
     palette: {
       type: darkMode ? "dark" : "light",
+      background: {
+        default: darkMode ? "#1D2F3B" : "#F0F0F0" 
+      },  
       primary: {
-        main: darkMode ? green[500] : orange[500]
+        main: darkMode ? purple[500] : orange[500]
       },
       secondary: {
         main: darkMode ? purple[500] : red[500]
       },
     },
     overrides: {
+      MuiCssBaseline: {
+        "@global": {
+          body: {
+            userSelect: "none"
+          },
+        },
+      },
       MuiCard: {
         root: {
-          padding: "15px 10px"
+          background: darkMode ? "#1C2A35" : "white",
+          padding: "15px 10px",
         }
       },
-     /*  MuiButton: {
-        contained: {
-          color: 'blue',
-          padding: 10,
-        },
-      }, */
     },
   })
 
@@ -62,17 +65,30 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <Router>
+          <CssBaseline />
           <Container className={classes.container} maxWidth="sm">
-            <Grid container spacing={1}>
-              <CssBaseline />
+            <Grid container spacing={1} justify="center">
                 <Switch>
-                  <Route path="/signin" component={SignIn} />
-                  <Route path="/signup" component={SignUp} />
-                  <PrivateRoute path="/spending" component={Spending} />
-                  <PrivateRoute path="/settings">
-                    <Settings darkMode={darkMode} setDarkMode={setDarkMode}/>  
-                  </PrivateRoute>
-                  <PrivateRoute path="*" component={Dashboard} />
+                  <Route 
+                    path={["/signin", "/signup"]} 
+                    component={AuthForm} 
+                  />
+                  <PrivateRoute 
+                    path="/spending" 
+                    component={Spending} 
+                  />
+                  <PrivateRoute 
+                    path="/settings" 
+                    component={Settings} 
+                    data = {{
+                      setDarkMode : setDarkMode,
+                      darkMode : darkMode 
+                    }}
+                  />
+                  <PrivateRoute 
+                    path="*" 
+                    component={Dashboard} 
+                  />
                 </Switch>
             </Grid>
           </Container>

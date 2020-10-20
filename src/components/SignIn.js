@@ -5,18 +5,24 @@ import { AuthContext } from "../Auth.js"
 import { Link } from "react-router-dom"
 import { useTheme } from '@material-ui/core/styles'
 
-import { FormControl, Form, Input, Button, Typography, Card, CardHeader, CardContent} from "@material-ui/core"
+import { FormControl, Form, Input, Button, Typography, Card, CardHeader, CardContent, Grid} from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles'
 import { red } from '@material-ui/core/colors'
 
 const useStyles = makeStyles({
   card: {
-    alignItems: 'center'
+    textAlign: "center"
+  },
+  input: {
+    width: "90%",
+    margin: "10px 0px"
+  },
+  button: {
+
   }
 })
 
 function SignIn({ history }) {
-  const theme = useTheme()
   const classes = useStyles()
   
   const handleSignIn = useCallback(
@@ -40,23 +46,29 @@ function SignIn({ history }) {
   }
 
   return (
-    <Card className={classes.card} backround="red">
+    <Grid item xs={10}>
       <form onSubmit={handleSignIn}>   
-        <CardContent>
-          <Typography variant="h2" color="primary">Sign In</Typography>
-          <Input name="email" type="email" placeholder="Email" />
-          <Input name="password" type="password" placeholder="Password" />
-          <Button type="submit" variant="contained" color="primary">
-            Sign In
-          </Button>
-{/*           <Button>
-            <Link to="/signup">
-            Create Account 
-            </Link>
-          </Button> */}
-        </CardContent>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography variant="h3" color="primary">Sign In</Typography>
+            <br />
+            <Input className={classes.input} name="email" type="email" placeholder="Email" />
+            <br />
+            <Input className={classes.input} name="password" type="password" placeholder="Password" />
+            <br />
+            <Button className={classes.input} type="submit" variant="contained" color="primary">
+              Sign In
+            </Button>
+            <br />
+            <Button>
+              <Link to="/signup">
+              Create Account 
+              </Link>
+            </Button>
+          </CardContent>     
+        </Card>   
       </form>
-    </Card>   
+    </Grid>
   )
 }
 
