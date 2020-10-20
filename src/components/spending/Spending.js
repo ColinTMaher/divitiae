@@ -2,8 +2,7 @@ import React, { useEffect, useState, useContext } from "react"
 import SpendingItem from "./SpendingItem"
 import {auth, db} from "../../firebase"
 import { AuthContext } from "../../Auth"
-import AddSpend from "./AddSpend"
-import { Grid, Card, MenuItem, Select, Button, Input, Table, TableCell, TableRow, Link} from "@material-ui/core"
+import { Grid, Card, MenuItem, Select, Button, Input, Table, TableCell, TableRow, Link, ButtonBase} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/Styles"
 
 const useStyles = makeStyles({
@@ -28,6 +27,14 @@ const useStyles = makeStyles({
             background: "black"
         }
 
+    },
+    clickable: {
+        width: "100%",
+        padding: 0
+    },
+    row: {
+        width: "100%",
+        padding: 0
     }
 })
 
@@ -65,10 +72,12 @@ function Spending() {
     }, [])
 
     const spendingItems = spendingData.map(item => 
-    <TableRow onClick={() => handleClick(item.id)}>
-        <SpendingItem key={item.id} item={item} userId={authContext.currentUser.uid} itemId={item.id}/>
-    </TableRow>)
-    
+        <TableRow onClick={() => handleClick(item.id)}>
+            <SpendingItem key={item.id} item={item} userId={authContext.currentUser.uid} itemId={item.id}/>
+        </TableRow> 
+
+    ) 
+
     spendingData.sort((a,b) => (a.timestamp > b.timestamp) ? 1 : ((b.timestamp > a.timestamp) ? -1 : 0)) 
     
     return (
@@ -119,11 +128,6 @@ function Spending() {
                     <Table>
                         {spendingItems}
                     </Table>
-                </Card>
-            </Grid>
-            <Grid item xs={12}>
-                <Card className={classes.card}>
-                    <AddSpend collection={collection}/>
                 </Card>
             </Grid>
             </>

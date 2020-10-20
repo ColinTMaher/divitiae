@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { db } from "../../firebase"
 import { AuthContext } from "../../Auth"
-import { TableCell, SvgIcon, Button, IconButton } from "@material-ui/core"
+import { TableCell, SvgIcon, Button, IconButton, Typography, Icon} from "@material-ui/core"
 
 import { makeStyles } from "@material-ui/core/Styles"
 
@@ -16,6 +16,9 @@ import HouseIcon from '@material-ui/icons/House'
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles({
+    cell: {
+        
+    },
     icon: {
         textAlign: "center"
     },
@@ -29,7 +32,8 @@ const useStyles = makeStyles({
         fontSize: "0.8em"
     },
     amount: {
-        textAlign: "right"
+        textAlign: "right",
+        paddingRight: "30px"
     },
     delete: {
         textAlign: "center"
@@ -40,8 +44,8 @@ function SpendingItem(props) {
     const {name, amount, category, timestamp} = props.item
     const authContext = useContext(AuthContext)
     const classes = useStyles()
-
-    var icon
+/*     const [screen, setScreen] = useState("")
+ */    var icon
 
     switch(category) {
         case "general":
@@ -88,21 +92,25 @@ function SpendingItem(props) {
 
     return (
         <>
-            <TableCell className={classes.icon}>
-                <SvgIcon component={icon} />
+            <TableCell className={[classes.icon, classes.cell]}>
+                <Icon component={icon} style={{ fontSize: 35 }}/>
             </TableCell>
-            <TableCell className={classes.text}>
-                <div className={classes.name}>{name}</div>
-                <div className={classes.date}>{`${day}/${month}/${year}`}</div>
+            <TableCell className={[classes.text, classes.cell]}>
+                <Typography variant="body1">
+                    <div className={classes.name}>{name}</div>
+                </Typography> 
+                <Typography variant="subtitle1">
+                    <div className={classes.date}>{`${day}/${month}/${year}`}</div>
+                </Typography>
             </TableCell>
-            <TableCell className={classes.amount}>
-                €{amount}{/* €{amount.toFixed(2)} */}
+            <TableCell className={[classes.amount, classes.cell]}>
+                <Typography variant="body1">{amount}€{/* €{amount.toFixed(2)} */}</Typography>
             </TableCell>
-            <TableCell className={classes.delete}>
+{/*             <TableCell className={classes.delete}>
                 <IconButton aria-label="delete" onClick={() => remove()}>
                     <DeleteIcon />
                 </IconButton>
-            </TableCell>       
+            </TableCell>  */}  
         </>
     )
 }

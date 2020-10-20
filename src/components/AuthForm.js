@@ -5,25 +5,29 @@ import { AuthContext } from "../Auth.js"
 import { Link, useLocation } from "react-router-dom"
 import { useTheme } from '@material-ui/core/styles'
 
-import { FormControl, Form, Input, Button, Typography, Card, CardHeader, CardContent, Grid} from "@material-ui/core"
+import { FormControl, Form, Input, Button, Typography, Card, CardHeader, CardContent, Grid, TextField } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles'
 import { red } from '@material-ui/core/colors'
 
 const useStyles = makeStyles({
-  card: {
-    textAlign: "center"
-  },
-  heading: {
+    card: {
+        textAlign: "center"
+    },
+    heading: {
 
-  },
-  input: {
-    width: "90%",
-    margin: "10px 0px",
-    padding: "5px"
-  },
-  button: {
-
-  }
+    },
+    input: {
+        width: "100%",
+        marginBottom: 10
+    },
+    button: {
+        marginTop: 20,
+        marginBottom: 25,
+        width: "80%"
+    },
+    link: {
+        textDecoration: "none"
+    }
 })
 
 function AuthForm({ history }) {
@@ -70,36 +74,42 @@ function AuthForm({ history }) {
                         <Typography className={classes.heading} variant="h4" color="primary">Divitiae</Typography>
                         <br />
                         {
-                            location==="/signin" 
-                            ? 
-                            <>           
-                                <Input className={classes.input} name="email" type="email" placeholder="Email" />
-                                <br />
-                                <Input className={classes.input} name="password" type="password" placeholder="Password" />
-                                <br />
-                                <Button className={classes.input} type="submit" variant="contained" color="primary">
-                                Sign In
+                            <>        
+                                <TextField
+                                    name="email"
+                                    type="email"
+                                    id="outlined-with-placeholder"
+                                    label="Email"
+                                    placeholder="Email"
+                                    className={[classes.textField, classes.input]}
+                                    margin="normal"
+                                    variant="outlined"
+                                />   
+                                <TextField
+                                    name="password"
+                                    type="password"
+                                    id="outlined-with-placeholder"
+                                    label="Password"
+                                    placeholder="Password"
+                                    className={[classes.textField, classes.input]}
+                                    margin="normal"
+                                    variant="outlined"
+                                />   
+                                <Button className={classes.button} type="submit" variant="contained" color="primary">
+                                    {location==="/signin"? "Sign In" : "Sign Up"}
                                 </Button>
                                 <br />
-                                <br />
-                                <Link to="/signup" onClick={() => setLocation("/signup")}>
-                                    Create Account 
-                                </Link>
-                            </>
-                            :
-                            <>
-                                <Input className={classes.input} name="email" type="email" placeholder="Email" />
-                                <br />
-                                <Input className={classes.input} name="password" type="password" placeholder="Password" />
-                                <br />
-                                <Button className={classes.input} type="submit" variant="contained" color="primary">
-                                Sign Up
-                                </Button>
-                                <br />
-                                <br />
-                                <Link to="/signup" onClick={() => setLocation("/signin")}>
-                                    Already have an account?
-                                </Link>
+
+                                {location==="/signin"
+                                ? 
+                                    <Link className={classes.link} to="/signup" onClick={() => setLocation("/signup")}>
+                                        Create Account
+                                    </Link>
+                                :
+                                    <Link className={classes.link} to="/signin" onClick={() => setLocation("/signin")}>
+                                        Already have an account?
+                                    </Link>
+                                }
                             </>
                         }
                     </CardContent>     

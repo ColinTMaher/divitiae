@@ -8,7 +8,7 @@ import CreditCardIcon from '@material-ui/icons/CreditCard'
 import { Link, useLocation } from 'react-router-dom'
 import { auth } from "../firebase"
 import { AuthContext } from "../Auth"
-
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(() => ({
     navbar : {
@@ -61,10 +61,17 @@ function Navbar(props) {
             <BottomNavigationAction 
                 component={Link}
                 className={classes.navBtn}
+                label="Add Spend" 
+                icon={<AddIcon />} 
+                to="/addspend"
+            />
+{/*             <BottomNavigationAction 
+                component={Link}
+                className={classes.navBtn}
                 label="Settings" 
                 icon={<SettingsIcon />} 
                 to="/settings"
-            />
+            /> */}
         </BottomNavigation>
     )
 }
