@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
 import { Grid, Container } from '@material-ui/core'
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/Styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -74,8 +74,11 @@ function App() {
                     <PrivateRoute exact path="/spending" component={Spending} />
                     <PrivateRoute exact path="/spending/add" component={AddSpend} />
                     <PrivateRoute exact path="/income" component={Income} />
-                    <PrivateRoute exact path={["/", "/dashboard"]} component={Dashboard} />
+                    <PrivateRoute exact path={["/dashboard"]} component={Dashboard} />
                     <Route path={["/signin", "/signup"]} component={AuthForm} />
+                    <Route exact path={["/", "**"]}>
+                      <Redirect to="/dashboard" />
+                    </Route>
                   </Switch>
               </Grid>
             </Container>

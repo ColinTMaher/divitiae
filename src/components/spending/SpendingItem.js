@@ -107,11 +107,11 @@ function SpendingItem(props) {
             <TableCell className={[classes.amount, classes.cell].join(' ')}>
                 <Typography variant="body1">{amount}€{/* €{amount.toFixed(2)} */}</Typography>
             </TableCell>
-{/*             <TableCell className={classes.delete}>
+            <TableCell className={classes.delete}>
                 <IconButton aria-label="delete" onClick={() => remove()}>
                     <DeleteIcon />
                 </IconButton>
-            </TableCell>    */}
+            </TableCell>   
         </>
     )
 }
