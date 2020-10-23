@@ -1,18 +1,26 @@
 import React, { useEffect, useState, useContext } from "react"
-import SpendingItem from "./SpendingItem"
-import {auth, db} from "../../firebase"
-import { AuthContext } from "../../Auth"
-import { Grid, Card, MenuItem, Select, Button, Input, Table, TableCell, TableRow, Link, ButtonBase} from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/Styles"
+import { Link } from 'react-router-dom'
 
-const useStyles = makeStyles({
+import { Grid, Card, Table, TableCell, TableRow, ButtonBase, TableHead, TableBody, Icon, IconButton, TextField} from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/Styles"
+import Fab from '@material-ui/core/Fab'
+
+import AddIcon from '@material-ui/icons/Add'
+
+import SpendingItem from "./SpendingItem"
+import { auth, db } from "firebase.js"
+
+const useStyles = makeStyles((theme) => ({
     card: {
         textAlign: "center"
     },
+    searchCard: {
+        padding: 0,
+        height: "100%"
+    },
     search: {
-        height: "100%",
-        marginRight: "20px",
-        width: "50%"
+        width: "100%",
+        padding: "5px"
     },
     sort: {
         width: "100%",
@@ -26,7 +34,6 @@ const useStyles = makeStyles({
         '&:selected': {
             background: "black"
         }
-
     },
     clickable: {
         width: "100%",
@@ -35,16 +42,37 @@ const useStyles = makeStyles({
     row: {
         width: "100%",
         padding: 0
-    }
-})
+    },
+    buttonBase: {
+        width: "100%",
+        height: "100%"
+    },
+    arrowBtn: {
+        width: "100%",
+        height: "100%"
+    },
+    headerRow: {
+        textAlign: "center"
+    },
+    headerCell: {
+        textAlign: "right",
+        margin: "auto",
+    },
+    search: {
+        
+    },
+    fab: {
+        position: "fixed",
+        bottom: "70px",
+        right: "25px"
+    },
+}))
 
 function Spending() {
-    const authContext = useContext(AuthContext)
-    const classes = useStyles()
- 
-    const collection = `${authContext.currentUser.uid}/spending/items`
     const [spendingData, setSpendingData] = useState([])
 
+    const classes = useStyles()
+    const collection = `${auth.currentUser.uid}/spending/items`
     const ref = db.collection(collection) 
     
     function getData() {
@@ -72,65 +100,28 @@ function Spending() {
     }, [])
 
     const spendingItems = spendingData.map(item => 
-        <TableRow onClick={() => handleClick(item.id)}>
-            <SpendingItem key={item.id} item={item} userId={authContext.currentUser.uid} itemId={item.id}/>
+        <TableRow key={item.id} onClick={() => handleClick(item.id)}>
+            <SpendingItem key={item.id} item={item} userId={auth.currentUser.uid} itemId={item.id}/>
         </TableRow> 
-
     ) 
 
+
     spendingData.sort((a,b) => (a.timestamp > b.timestamp) ? 1 : ((b.timestamp > a.timestamp) ? -1 : 0)) 
-    
     return (
-            <>
-            {/* <Grid item xs={10}>
-                <Card className={classes.card}>
-                    <Input className={classes.search} type="text" placeholder="search"></Input>       
-                    <Button className={classes.searchBtn} color="primary" variant="contained">Search</Button>        
-                </Card>     
-            </Grid>
-            <Grid item xs={2}>
-                <Card className={classes.card}>
-                    <Select className={classes.sort}>
-                        <MenuItem>-Sort By-</MenuItem>
-                        <MenuItem>Date</MenuItem>
-                        <MenuItem>Amount</MenuItem>
-                        <MenuItem>Category</MenuItem>
-                    </Select>                
-                </Card>     
-            </Grid>
-            <Grid item xs={3}>
-                <Card className={classes.card}>
-                    {"<"}
-                </Card>
-            </Grid>
-            <Grid item xs={6}>
-                <Card className={classes.card}>
-                    <select className="date-selector">
-                        <option value="October">October 2020</option>
-                        <option value="january">August 2020</option>
-                        <option value="january">July 2020</option>
-                        <option value="january">June 2020</option>
-                        <option value="january">May 2020</option>
-                        <option value="january">April 2020</option>
-                        <option value="january">March 2020</option>
-                        <option value="january">February 2020</option>
-                        <option value="january">January  2020</option>     
-                    </select>
-                </Card>   
-            </Grid>
-            <Grid item xs={3}>
-                <Card className={classes.card}>
-                    {">"} 
-                </Card>
-            </Grid> */}
+        <>
             <Grid item xs={12}>
-                <Card className={[classes.card, classes.spendingList]} >
+                <Card className={[classes.card, classes.spendingList].join(' ')} >
                     <Table>
-                        {spendingItems}
+                        <TableBody>
+                            {spendingItems}
+                        </TableBody>
                     </Table>
                 </Card>
             </Grid>
-            </>
+            <Fab size="medium" color="secondary" aria-label="add" className={classes.fab} component={Link} to="/spending/add">
+                <AddIcon />
+            </Fab>
+        </>
     )
 }
 

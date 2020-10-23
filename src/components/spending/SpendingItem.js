@@ -44,6 +44,7 @@ function SpendingItem(props) {
     const {name, amount, category, timestamp} = props.item
     const authContext = useContext(AuthContext)
     const classes = useStyles()
+    
 /*     const [screen, setScreen] = useState("")
  */    var icon
 
@@ -92,25 +93,25 @@ function SpendingItem(props) {
 
     return (
         <>
-            <TableCell className={[classes.icon, classes.cell]}>
+            <TableCell className={[classes.icon, classes.cell].join(' ')}>
                 <Icon component={icon} style={{ fontSize: 35 }}/>
             </TableCell>
-            <TableCell className={[classes.text, classes.cell]}>
+            <TableCell className={[classes.text, classes.cell].join(' ')}>
                 <Typography variant="body1">
-                    <div className={classes.name}>{name}</div>
+                    <span className={classes.name}>{name}</span>
                 </Typography> 
                 <Typography variant="subtitle1">
-                    <div className={classes.date}>{`${day}/${month}/${year}`}</div>
+                    <span className={classes.date}>{`${day}/${month}/${year}`}</span>
                 </Typography>
             </TableCell>
-            <TableCell className={[classes.amount, classes.cell]}>
+            <TableCell className={[classes.amount, classes.cell].join(' ')}>
                 <Typography variant="body1">{amount}€{/* €{amount.toFixed(2)} */}</Typography>
             </TableCell>
 {/*             <TableCell className={classes.delete}>
                 <IconButton aria-label="delete" onClick={() => remove()}>
                     <DeleteIcon />
                 </IconButton>
-            </TableCell>  */}  
+            </TableCell>    */}
         </>
     )
 }

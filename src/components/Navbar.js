@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
+// Imports
+import React, { useState, useContext } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+
 import { makeStyles } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import SettingsIcon from '@material-ui/icons/Settings'
-import CreditCardIcon from '@material-ui/icons/CreditCard'
-import { Link, useLocation } from 'react-router-dom'
-import { auth } from "../firebase"
+
 import { AuthContext } from "../Auth"
-import AddIcon from '@material-ui/icons/Add';
+
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import CreditCardIcon from '@material-ui/icons/CreditCard'
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 
 const useStyles = makeStyles(() => ({
     navbar : {
@@ -61,17 +63,10 @@ function Navbar(props) {
             <BottomNavigationAction 
                 component={Link}
                 className={classes.navBtn}
-                label="Add Spend" 
-                icon={<AddIcon />} 
-                to="/addspend"
+                label="Income" 
+                icon={<AccountBalanceIcon />}
+                to="/income"
             />
-{/*             <BottomNavigationAction 
-                component={Link}
-                className={classes.navBtn}
-                label="Settings" 
-                icon={<SettingsIcon />} 
-                to="/settings"
-            /> */}
         </BottomNavigation>
     )
 }

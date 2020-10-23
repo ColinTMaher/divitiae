@@ -1,15 +1,13 @@
 import React, { useCallback, useContext, useState } from "react"
-import { withRouter, Redirect } from "react-router"
-import { auth } from "../firebase.js"
-import { AuthContext } from "../Auth.js"
-import { Link, useLocation } from "react-router-dom"
-import { useTheme } from '@material-ui/core/styles'
 
-import { FormControl, Form, Input, Button, Typography, Card, CardHeader, CardContent, Grid, TextField } from "@material-ui/core"
+import { Link, Redirect, useLocation } from "react-router-dom"
+import { Button, Typography, Card, CardContent, Grid, TextField } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles'
-import { red } from '@material-ui/core/colors'
 
-const useStyles = makeStyles({
+import { AuthContext } from "Auth"
+import { auth } from "firebase.js"
+
+const useStyles = makeStyles((theme) => ({
     card: {
         textAlign: "center"
     },
@@ -26,15 +24,18 @@ const useStyles = makeStyles({
         width: "80%"
     },
     link: {
-        textDecoration: "none"
+        textDecoration: "none",
+        color: theme.palette.secondary.main
     }
-})
+}))
 
 function AuthForm({ history }) {
     // Checks if signin or signup form should be loaded.
     const [location, setLocation] = useState(useLocation().pathname)
    
     const { currentUser } = useContext(AuthContext)
+    console.log("helloooo")
+    console.log(AuthContext)
     const classes = useStyles()
   
     const handleSignIn = useCallback(
@@ -81,7 +82,7 @@ function AuthForm({ history }) {
                                     id="outlined-with-placeholder"
                                     label="Email"
                                     placeholder="Email"
-                                    className={[classes.textField, classes.input]}
+                                    className={[classes.textField, classes.input].join(' ')}
                                     margin="normal"
                                     variant="outlined"
                                 />   
@@ -91,7 +92,7 @@ function AuthForm({ history }) {
                                     id="outlined-with-placeholder"
                                     label="Password"
                                     placeholder="Password"
-                                    className={[classes.textField, classes.input]}
+                                    className={[classes.textField, classes.input].join(' ')}
                                     margin="normal"
                                     variant="outlined"
                                 />   
@@ -119,4 +120,4 @@ function AuthForm({ history }) {
     ) 
 }
 
-export default withRouter(AuthForm)
+export default AuthForm

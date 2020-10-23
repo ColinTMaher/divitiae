@@ -4,9 +4,6 @@ import { Grid, Switch, Card, Link, CardActionArea, Typography } from "@material-
 import { makeStyles } from "@material-ui/core/Styles"
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-
-
-
 const useStyles = makeStyles({
     settingsCard: {
         textAlign: "center",

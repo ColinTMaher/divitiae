@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom"
-import { Paper, Grid, Container, Card } from '@material-ui/core'
-import { makeStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/Styles"
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { Grid, Container } from '@material-ui/core'
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/Styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 import { AuthProvider } from '../Auth'
-import PrivateRoute from "../PrivateRoute"
+import PrivateRoute from '../PrivateRoute'
 
-import Dashboard from "./Dashboard"
-import Spending from "./spending/Spending"
-import Settings from "./settings/Settings"
+import Dashboard from './dashboard/Dashboard'
+import Spending from './spending/Spending'
 import Navbar from './Navbar'
-import AuthForm from "./AuthForm"
-import Header from "./Header"
-import AddSpend from "./AddSpend"
+import AuthForm from './auth/AuthForm'
+import Header from './Header'
+import Income from './income/Income'
+import AddSpend from './spending/AddSpend'
 
-import { purple, green, orange, red } from '@material-ui/core/colors';
+import { orange, red } from '@material-ui/core/colors'
 
 const useStyles = makeStyles({
   background: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   }
 })
 
-function App(props) {
+function App() {
   const [darkMode, setDarkMode] = useState(false)
   const classes = useStyles()
 
@@ -67,34 +67,15 @@ function App(props) {
       <AuthProvider>
         <Router>
           <CssBaseline />
-          <Header darkMode = {darkMode} setDarkMode = {setDarkMode} />
+          <Header darkMode={darkMode} setDarkMode={setDarkMode} />
             <Container className={classes.container} maxWidth="sm">
               <Grid container spacing={1} justify="center">
                   <Switch>
-                    <Route 
-                      path={["/signin", "/signup"]} 
-                      component={AuthForm} 
-                    />
-                    <PrivateRoute 
-                      path="/spending" 
-                      component={Spending} 
-                    />
-                    <PrivateRoute 
-                      path="/addspend" 
-                      component={AddSpend} 
-                    />
-{/*                     <PrivateRoute 
-                      path="/settings" 
-                      component={Settings} 
-                      data = {{
-                        setDarkMode : setDarkMode,
-                        darkMode : darkMode 
-                      }}
-                    /> */}
-                    <PrivateRoute 
-                      path="*" 
-                      component={Dashboard} 
-                    />
+                    <PrivateRoute exact path="/spending" component={Spending} />
+                    <PrivateRoute exact path="/spending/add" component={AddSpend} />
+                    <PrivateRoute exact path="/income" component={Income} />
+                    <PrivateRoute exact path={["/", "/dashboard"]} component={Dashboard} />
+                    <Route path={["/signin", "/signup"]} component={AuthForm} />
                   </Switch>
               </Grid>
             </Container>
