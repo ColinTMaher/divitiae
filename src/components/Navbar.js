@@ -1,71 +1,69 @@
-// Imports
-import React, { useState, useContext } from 'react'
+import { useEffect, useState } from "react"
 import { Link, useLocation } from 'react-router-dom'
+import { BottomNavigation, BottomNavigationAction }from "@material-ui/core"
+import { makeStyles } from '@material-ui/core/styles';
+import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined'
+import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined'
+import CreditCardOutlinedIcon from '@material-ui/icons/CreditCardOutlined'
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined'
+import { useAuth } from 'contexts/AuthContext'
 
-import { makeStyles } from '@material-ui/core/styles'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-
-import { AuthContext } from "../Auth"
-
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import CreditCardIcon from '@material-ui/icons/CreditCard'
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
-
-const useStyles = makeStyles(() => ({
-    navbar : {
-        width: "100%",
-        position: 'fixed',
+const useStyles = makeStyles({
+    navbar: {
+        overflow: "hidden",
+        position: "fixed",
         bottom: 0,
-        alignItems: "center"
-    }
-}))
+        width: "100%"
+    },
+})
 
-function Navbar(props) {
-    const [value, setValue] = useState(getSelected(useLocation().pathname))
+function Navbar() {
     const classes = useStyles()
-    const {currentUser} = useContext(AuthContext)
-
-
-    function getSelected(path) {
-        switch(path) {
-            case "/dashboard": return 0
-            case "/spending": return 1
-            case "/settings": return 2
-            default: return 0
-        }  
-    }
+    const [value, setValue] = useState()
+    const location = useLocation().pathname
+    const { currentUser } = useAuth()
+    
+    useEffect(() => {
+        setValue(location)
+    }, [location]) 
 
     return (
-        <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue)
-            }}
+        <BottomNavigation 
+            value={value} 
+            className={classes.navbar} 
+            onChange={(event, newValue) => {setValue(newValue)}} 
             showLabels
-            className={classes.navbar}
             style={{display: `${currentUser ? "flex" : "none" }`}}
         >
             <BottomNavigationAction 
-                component={Link}
-                className={classes.navBtn}
                 label="Dashboard" 
-                icon={<DashboardIcon />} 
+                value="/dashboard" 
+                icon={<DashboardOutlinedIcon />} 
+                component={Link}
                 to="/dashboard"
             />
             <BottomNavigationAction 
-                component={Link}
-                className={classes.navBtn}
                 label="Spending" 
-                icon={<CreditCardIcon />}
+                value="/spending" 
+                icon={<CreditCardOutlinedIcon />} 
+                component={Link}
                 to="/spending"
+
             />
             <BottomNavigationAction 
-                component={Link}
-                className={classes.navBtn}
                 label="Income" 
-                icon={<AccountBalanceIcon />}
+                value="/income" 
+                icon={<AccountBalanceOutlinedIcon />} 
+                component={Link}
                 to="/income"
+
+            />
+            <BottomNavigationAction 
+                label="Settings" 
+                value="/settings" 
+                icon={<SettingsOutlinedIcon />} 
+                component={Link}
+                to="/settings"
             />
         </BottomNavigation>
     )

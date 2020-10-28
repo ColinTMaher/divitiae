@@ -1,22 +1,21 @@
-import firebase from "firebase"
+import firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAnPRSqiRUt51nr3XNEld3MvuZ7AHjBoo0",
-    authDomain: "divitiae-8b4f0.firebaseapp.com",
-    databaseURL: "https://divitiae-8b4f0.firebaseio.com",
-    projectId: "divitiae-8b4f0",
-    storageBucket: "divitiae-8b4f0.appspot.com",
-    messagingSenderId: "846076850100",
-    appId: "1:846076850100:web:2ea8edceb0e0c3d56acce1",
-    measurementId: "G-8SB1V4HCDX"
-}
-
-firebase.initializeApp(firebaseConfig)
+const app = firebase.initializeApp({
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_FIREBASE_DATATBASE_URL,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+})
 
 export const auth = firebase.auth()
 export const db = firebase.firestore()
 
+export default app
 
  

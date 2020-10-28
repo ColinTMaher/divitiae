@@ -1,47 +1,56 @@
-import React from "react"
-import { auth } from "../../firebase"
-import { Grid, Switch, Card, Link, CardActionArea, Typography } from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/Styles"
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Grid, Typography, Paper, Button, Switch, FormGroup, FormControlLabel, Divider, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { useAuth } from 'contexts/AuthContext'
+import FlareOutlinedIcon from '@material-ui/icons/FlareOutlined'
+import FlareIcon from '@material-ui/icons/Flare'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const useStyles = makeStyles({
-    settingsCard: {
-        textAlign: "center",
+    list: {
         padding: 0
     },
-    actionArea: {
-        height: 60,
-        display: "flex",
-        justifyContent: "space-around"
+    listItem: {
+        padding: "20px",
+    },
+    listItemText: {
+        marginLeft: "25px"
     }
 })
 
 function Settings(props) {
-    const classes = useStyles()
+    const classes = useStyles() 
+    const { signOut } = useAuth()
 
+    function handleSignOut() {
+        signOut()
+    }
+    
+    function toggleDarkMode() {
+        props.setDarkMode(!props.darkMode)
+    }
+    
     return (
-        <>
-            <Grid item xs={6}> 
-                <Card className={classes.settingsCard}>
-                    <CardActionArea className={classes.actionArea} onClick={() => props.setDarkMode(!props.darkMode)}>
-                        <Typography>
-                            Dark Mode
-                        </Typography>
-                        <Switch checked={props.darkMode} />
-                    </CardActionArea>
-                </Card> 
-            </Grid>
-            <Grid item xs={6}>  
-                <Card className={classes.settingsCard}>
-                    <CardActionArea className={classes.actionArea} onClick={() => auth.signOut()}>
-                        <Typography>
-                            Sign Out
-                        </Typography>
+        <List className={classes.list} aria-label="mailbox folders" component={Paper}>
+            <ListItem button className={classes.listItem} onClick={toggleDarkMode}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <FlareIcon />
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Dark Mode" className={classes.listItemText}/>
+                <Switch checked={props.darkMode} />
+            </ListItem>
+            <Divider />
+            <ListItem button className={classes.listItem} onClick={handleSignOut}>
+                <ListItemAvatar>
+                    <Avatar>
                         <ExitToAppIcon />
-                    </CardActionArea>
-                </Card>
-            </Grid>
-        </>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Sign Out" className={classes.listItemText}/>
+            </ListItem>
+        </List>
     )
 }
 

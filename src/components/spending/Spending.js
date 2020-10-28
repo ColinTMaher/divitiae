@@ -1,82 +1,60 @@
-import React, { useEffect, useState, useContext } from "react"
-import { Link } from 'react-router-dom'
-
-import { Grid, Card, Table, TableCell, TableRow, ButtonBase, TableHead, TableBody, Icon, IconButton, TextField} from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/Styles"
-import Fab from '@material-ui/core/Fab'
-
+import { useState, useEffect } from "react"
+import {  Paper, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, Fab } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom' 
+import FlightIcon  from '@material-ui/icons/Flight'
+import PublicIcon from '@material-ui/icons/Public'
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket'
+import DirectionsBusIcon from '@material-ui/icons/DirectionsBus'
+import RestaurantIcon from '@material-ui/icons/Restaurant'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import HouseIcon from '@material-ui/icons/House'
+import CreditCardIcon from '@material-ui/icons/CreditCard'
 import AddIcon from '@material-ui/icons/Add'
+import { useAuth } from 'contexts/AuthContext'
+import { db } from 'firebase.js'
 
-import SpendingItem from "./SpendingItem"
-import { auth, db } from "firebase.js"
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
     card: {
-        textAlign: "center"
+        padding: "10px"
     },
-    searchCard: {
+    list: {
         padding: 0,
-        height: "100%"
     },
-    search: {
-        width: "100%",
-        padding: "5px"
+    listItem: {
+        borderRadius: "5px",
+        padding: 25,
     },
-    sort: {
-        width: "100%",
-        height: "100%"
-    },
-    searchBtn: {
-        width: "20%"
-    },
-    spendingList: {
-        padding: 0,
-        '&:selected': {
-            background: "black"
-        }
-    },
-    clickable: {
-        width: "100%",
-        padding: 0
-    },
-    row: {
-        width: "100%",
-        padding: 0
-    },
-    buttonBase: {
-        width: "100%",
-        height: "100%"
-    },
-    arrowBtn: {
-        width: "100%",
-        height: "100%"
-    },
-    headerRow: {
-        textAlign: "center"
-    },
-    headerCell: {
-        textAlign: "right",
-        margin: "auto",
-    },
-    search: {
-        
+    listItemText: {
+    
     },
     fab: {
-        position: "fixed",
-        bottom: "70px",
-        right: "25px"
-    },
-}))
+        position: "absolute",
+        bottom: 75, 
+        right: 20
+    }
+})
+  
+function createData(name, calories, color) {
+    return { name, calories, color};
+}
+  
+const rows = [
+    createData('Frozen yoghurt', 159, "red", 24, 4.0),
+    createData('Ice cream sandwich', 237, "blue", 37, 4.3),
+    createData('Eclair', 262, "orange"),
+    createData('Cupcake', 305, "green"),
+    createData('Gingerbread', 356, "purple"),
+]
+
 
 function Spending() {
+    const classes = useStyles()
+    const { currentUser } = useAuth()
     const [spendingData, setSpendingData] = useState([])
 
-    const classes = useStyles()
-    const collection = `${auth.currentUser.uid}/spending/items`
-    const ref = db.collection(collection) 
-    
     function getData() {
-        ref.onSnapshot(snapshot => {
+        db.collection(`${currentUser.uid}/spending/items`).onSnapshot(snapshot => {
             let data = []
             if(snapshot.size) {
                 snapshot.forEach(doc => {
@@ -91,37 +69,35 @@ function Spending() {
         })
     }
 
-    function handleClick(id) {
-        console.log(id)
-    }
-   
     useEffect(() => {
         getData()
     }, [])
 
     const spendingItems = spendingData.map(item => 
-        <TableRow key={item.id} onClick={() => handleClick(item.id)}>
-            <SpendingItem key={item.id} item={item} userId={auth.currentUser.uid} itemId={item.id}/>
-        </TableRow> 
+        <ListItem key={item.name} button className={classes.listItem} style={{borderLeft: `15px solid ${item.color}`}} >
+            <ListItemAvatar>
+                <Avatar>
+                    {item.category===""? <PublicIcon /> : null}
+                    {item.category==="general"? <PublicIcon /> : null}
+                    {item.category==="groceries"? <ShoppingBasketIcon /> : null}
+                    {item.category==="transport"? <DirectionsBusIcon /> : null}                           
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={item.name} className={classes.listItemText}/>    
+{/*             <ListItemText primary={`${item.date}`} className={classes.listItemText}/>      
+ */}            <ListItemText primary={`€${item.amount}`} className={classes.listItemText}/>     
+        </ListItem>
     ) 
-
-
-    spendingData.sort((a,b) => (a.timestamp > b.timestamp) ? 1 : ((b.timestamp > a.timestamp) ? -1 : 0)) 
     return (
         <>
-            <Grid item xs={12}>
-                <Card className={[classes.card, classes.spendingList].join(' ')} >
-                    <Table>
-                        <TableBody>
-                            {spendingItems}
-                        </TableBody>
-                    </Table>
-                </Card>
-            </Grid>
+            <List className={classes.list} aria-label="mailbox folders" component={Paper}>
+                {spendingItems}
+            </List>
             <Fab size="medium" color="secondary" aria-label="add" className={classes.fab} component={Link} to="/spending/add">
                 <AddIcon />
-            </Fab>
+            </Fab>                  
         </>
+        
     )
 }
 

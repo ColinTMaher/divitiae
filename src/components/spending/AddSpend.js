@@ -1,150 +1,160 @@
-
-
-import React, { useState } from "react"
-import { db, auth } from "firebase.js"
-import { useForm } from "react-hook-form"
-import { Button, Select, MenuItem, TextField, FormControl, InputLabel, Grid, Card } from "@material-ui/core"
+import { useState } from "react"
+import { Card, TextField, Paper, Button, TextareaAutosize, Select, MenuItem, FormControl, InputLabel } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 
-import 'date-fns'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns'
+import { KeyboardDatePicker} from '@material-ui/pickers'
+import { db } from 'firebase.js'
+import { useAuth } from 'contexts/AuthContext'
 
 const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 200,
-      },
-      selectEmpty: {
-        marginTop: theme.spacing(2),
-      },
     card: {
-        width: "fit-content",
-        textAlign: "center",
-        margin: "auto",
-        padding: "20px 50px"
+        padding: 20,
+        textAlign: "center"
+    },
+    input: {
+        marginBottom: 15
+    },
+    button: {
+        marginTop: 20
     }
 }))
 
-function AddSpend(props) { 
-    const classes = useStyles()
-    let history = useHistory()
 
-    const {register, handleSubmit, errors} = useForm()
+function AddSpend() {
+    const history = useHistory()
+    const classes = useStyles()
+    const { currentUser } = useAuth()
     const [name, setName] = useState("")
     const [amount, setAmount] = useState("")
+    const [description, setDescription] = useState("")
     const [category, setCategory] = useState("")
-    const [date, setDate] = useState(new Date())
+    const [color, setColor] = useState("")
+    const [date, setDate] = useState(null)
 
-    const handleNameChange = (event) => {
-        setName(event.target.value)
-    }
-    const handleAmountChange = (event) => {
-        setAmount(event.target.value)
-    }
-    const handleCategoryChange = (event) => {
-        setCategory(event.target.value)
-    }
-
-    const handleDateChange = (date) => {
-        setDate(date)
-    }
-
-    // The first commit of Material-UI
-
-    function onSubmit() {
-        console.log(name + " " + amount + " " + category)
-        
+    function handleSubmit(event) {
+        event.preventDefault()
+      
         const spend = {
             name: name,
             amount: amount,
+            description: description,
             category: category,
-            timestamp: date.getTime()
+            color: color,
+            date: date.getTime()
         }
 
-        db.collection(`${auth.currentUser.uid}/spending/items`).doc().set(spend).then(() => {
+        console.log(`${currentUser.uid}/spending/items`)
+
+        db.collection(`${currentUser.uid}/spending/items`).doc().set(spend).then(() => {
             history.goBack()
         }) 
     }   
 
-    return (
-        <Grid item xs={12}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Card className={classes.card} >
-                    <TextField
-                        type="text" 
-                        name="name" 
-                        placeholder="Name" 
-                        value={name}
-                        onChange={handleNameChange}
-                        id="outlined-with-placeholder"
-                        label="Name"
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                    />
-                    <br/>
-                    <TextField
-                        type="number" 
-                        min="0.01" 
-                        step="0.01"
-                        name="amount" 
-                        placeholder="Amount" 
-                        value={amount}
-                        onChange={handleAmountChange}
-                        id="outlined-with-placeholder"
-                        label="Amount"
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                    />
-                    <br/>
-                    <br/>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker-inline"
-                            label="Date picker inline"
-                            value={date}
-                            onChange={handleDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                            />
+    function handleDateChange(date) {
+        setDate(date)
+    }
 
-                    </MuiPickersUtilsProvider>
-                    <br/>
-                    <br/>
-                    <FormControl variant="filled" className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={category}
-                                onChange={handleCategoryChange}
-                            >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value="general">General</MenuItem>
-                            <MenuItem value="travel">Travel</MenuItem>
-                            <MenuItem value="groceries">Groceries</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <br/>
-                    <br/>
-                    <Button color="primary" variant="contained" onClick={onSubmit}>Add Item</Button>
-                </Card>
-            </form>
-        </Grid>
+    return (
+        <form onSubmit={handleSubmit} autoComplete="off">
+            <Paper className={classes.card}>
+                <TextField 
+                    className={classes.input}
+                    value={name}
+                    type="name"
+                    onChange={event => setName(event.target.value)}
+                    fullWidth
+                    label="Name"
+                    variant="outlined" 
+                    required
+                />    
+                <TextField 
+                    className={classes.input}
+                    value={amount}
+                    type="number"
+                    min="0.01" 
+                    step="0.01"
+                    onChange={event => setAmount(event.target.value)}
+                    fullWidth
+                    label="Amount"
+                    variant="outlined" 
+                    required
+                />   
+                <TextField 
+                    className={classes.input}
+                    value={description}
+                    type="text"
+                    onChange={event => setDescription(event.target.value)}
+                    fullWidth
+                    label="Description"
+                    variant="outlined" 
+                />          
+                <KeyboardDatePicker
+                    fullWidth
+                    disableToolbar
+                    inputVariant="outlined"
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date"
+                    value={date}
+                    onChange={handleDateChange}
+                    className={classes.input}
+                    KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                    }}
+                    required
+                    style={{marginTop: 0}}
+                />  
+                <FormControl variant="outlined" className={classes.input} fullWidth>
+                    <InputLabel htmlFor="category-select">Category</InputLabel>
+                    <Select
+                        native
+
+                        value={category}
+                        onChange={event => setCategory(event.target.value)}
+                        label="Category"
+                        inputProps={{
+                            name: 'category',
+                            id: 'category-select',
+                        }}
+                        >
+                        <option aria-label="None" value="" />
+                        <option value={"general"}>General</option>
+                        <option value={"groceries"}>Groceries</option>
+                        <option value={"transport"}>Transport</option>
+                    </Select>
+                </FormControl>  
+                <FormControl variant="outlined" className={classes.input} fullWidth>
+                    <InputLabel htmlFor="category-select">Colour</InputLabel>
+                    <Select
+                        native
+                        value={color}
+                        onChange={event => setColor(event.target.value)}
+                        label="Colour"
+                        inputProps={{
+                            name: 'color',
+                            id: 'color-select',
+                        }}
+                        >
+                        <option aria-label="None" value="" />
+                        <option value={"red"}>Red</option>
+                        <option value={"green"}>Green</option>
+                        <option value={"blue"}>Blue</option>
+                    </Select>
+                </FormControl>  
+                <Button 
+                    className={classes.button} 
+                    variant="contained" 
+                    color="primary" 
+                    fullWidth
+                    size="large"
+                    type="submit"
+                >
+                    Add Spend     
+                </Button>   
+            </Paper>   
+        </form>
     )
 }
 
